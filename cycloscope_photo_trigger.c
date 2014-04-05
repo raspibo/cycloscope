@@ -1,4 +1,11 @@
-// ------- Preamble -------- //
+/*
+GoPro sampling street code 
+Based on a description of: http://benlo.com/msp430/GoProController.html
+Reimplemented with Atmega328P 
+This code shoot a photo every SAMPLE_DIST meters
+The mcu go in sleep mode to reduce power consumption and wake up every .25 seconds with watchdog
+*/
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -16,9 +23,6 @@
 #define GOPRO_SHUT_START 16   //   waiting for camera to take pic
 #define GOPRO_SHUT_END   28   //   button down to stop
 
-
-
-// ------- Global Variables ---------- //
 volatile int x=0;
 volatile uint8_t tot_overflow;
 
@@ -26,7 +30,6 @@ volatile int f_wdt=1;
 
 static int state;
 static int time;
-
 
 void initInterrupt0(void) {                    //Imposta i registri per abilitare Interrupt sul pin INT0
  EIMSK |= (1 << INT0);
