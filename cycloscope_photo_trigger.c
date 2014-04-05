@@ -4,10 +4,29 @@
 #include <avr/interrupt.h>
 #include "pinDefines.h"
 #include <avr/sleep.h>
+#include <avr/power.h>
+#include <avr/wdt.h>
+
+#define WHEEL_CIRC       67  //  Circonferenza della ruota in cm
+#define SAMPLE_DIST      500 //  Distanza in metri tra due foto
+#define SAMPLE_COUNT     238 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
+
+#define GOPRO_WAKE_START 0    //   waiting for next cycle
+#define GOPRO_WAKE_STOP  1    //   button down to start
+#define GOPRO_SHUT_START 16   //   waiting for camera to take pic
+#define GOPRO_SHUT_END   28   //   button down to stop
+
+
 
 // ------- Global Variables ---------- //
 volatile int x=0;
 volatile uint8_t tot_overflow;
+
+volatile int f_wdt=1;
+
+static int state;
+static int time;
+
 
 void initInterrupt0(void) {                    //Imposta i registri per abilitare Interrupt sul pin INT0
  EIMSK |= (1 << INT0);
@@ -22,22 +41,60 @@ ISR(INT0_vect) {                                //Imposta la routine da eseguire
  } else {
   LED_PORT &= ~(1 << LED1);
  }
- if (x>=10) {                                  //Impostare a 238 per i test su strada//
-  LED_PORT |= (1 << LED0);
-  _delay_ms(100);
-  LED_PORT &= ~(1 << LED0);
-  x=0;
+ if (x>=SAMPLE_COUNT) {                                  //Impostare a 238 per i test su strada//
+ LED_PORT &= ~(1 << LED0);
+  time=GOPRO_WAKE_START;
+  wdt_reset();
  }
 }
 
+ISR(WDT_vect)
+{
+  sleep_disable();          // Disable Sleep on Wakeup
+  time++;
+ if (time==GOPRO_WAKE_STOP && x>=SAMPLE_COUNT) {
+   LED_PORT |= (1 << LED0); 
+  }
+  if (time==GOPRO_SHUT_START && x>=SAMPLE_COUNT) {
+   LED_PORT &= ~(1 << LED0);
+  }
+  if (time>=GOPRO_SHUT_END && x>=SAMPLE_COUNT) {
+   LED_PORT |= (1 << LED0);
+   time=GOPRO_WAKE_START;
+   x=0;
+  }
+  sleep_enable();           // Enable Sleep Mode
+}
+
+void enterSleep(void)
+{
+ set_sleep_mode(SLEEP_MODE_PWR_DOWN);   /* EDIT: could also use SLEEP_MODE_PWR_DOWN for lowest power consumption. */
+ sleep_enable();
+ sleep_mode();                          /* Now enter sleep mode. */
+ /* The program will continue from here after the WDT timeout*/
+ sleep_disable(); /* First thing to do is disable sleep. */
+ /* Re-enable the peripherals. */
+ power_all_enable();
+}
+
+
 int main(void) {
-  LED_DDR = 0xff;                              /* all LEDs active */
-  BUTTON_PORT |= (1 << BUTTON);                /* pullup */
-  initInterrupt0();
-  set_sleep_mode (SLEEP_MODE_PWR_DOWN);        /* Queste 3 istruzioni abilitano il modo in basso consumo della CPU */ 
-  sleep_enable();
-  while (1) {
-  sleep_cpu ();  
-  }                                                  
-  return (0);                                  /* This line is never reached */
+ LED_DDR = 0xff;                              /* all LEDs active */
+ //  LED_PORT ^= (1 << LED0); //toggle
+ BUTTON_PORT |= (1 << BUTTON);                /* pullup */
+ initInterrupt0();
+ /* Clear the reset flag. */
+ MCUSR &= ~(1<<WDRF);
+ /* In order to change WDE or the prescaler, we need to set WDCE (This will allow updates for 4 clock cycles). */
+ WDTCSR |= (1<<WDCE) | (1<<WDE);
+ //WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */  /* set new watchdog timeout prescaler value */
+ WDTCSR = 1<<WDP2; /* 250 milliseconds */
+ WDTCSR |= _BV(WDIE);  /* Enable the WD interrupt (note no reset). */
+
+ LED_PORT |= (1 << LED0); //Spegne il led
+
+ while (1) {
+   enterSleep();
+ }
+ return (0);                                  /* This line is never reached */
 }

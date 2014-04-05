@@ -1,0 +1,152 @@
+// ------- Preamble -------- //
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include "pinDefines.h"
+#include <avr/sleep.h>
+#include <avr/power.h>
+
+#define USART_BAUDRATE 9600
+#define BAUD_PRESCALE (((F_CPU/(USART_BAUDRATE*16UL)))-1)
+
+#ifndef UCSRB
+#   define UCSRB UCSR0B
+#   define RXEN  RXEN0
+#   define TXEN  TXEN0
+#   define UCSRC UCSR0C 
+#define    UBRRH    UBRR0H
+#define    UBRRL    UBRR0L 
+#define    UCSZ0    UCSZ00
+#define    UCSZ1    UCSZ01 
+#endif
+
+#define DELAY 3
+
+
+
+// ------- Global Variables ---------- //
+volatile int x=0;
+volatile uint8_t tot_overflow;
+
+volatile int f_wdt=1;
+
+
+void initInterrupt0(void) {                    //Imposta i registri per abilitare Interrupt sul pin INT0
+ EIMSK |= (1 << INT0);
+ EICRA |= (1 << ISC00);
+ sei();
+}
+
+
+ISR(INT0_vect) {                                //Imposta la routine da eseguire quando si riceve una variazione solo pin INT0
+ if (bit_is_set(BUTTON_PIN, BUTTON)) {
+  LED_PORT |= (1 << LED1);
+  x=x+1;
+ } else {
+  LED_PORT &= ~(1 << LED1);
+ }
+ if (x>=10) {                                  //Impostare a 238 per i test su strada//
+  LED_PORT |= (1 << LED0);
+  //  _delay_ms(100);
+  //  LED_PORT &= ~(1 << LED0);
+  x=0;
+ }
+}
+
+/*
+   ISR(USART_RX_vect) {
+   char ReceivedByte ;
+   ReceivedByte = UDR0 ; // Fetch the received byte value into the variable " ByteReceived "
+   UDR0 = ReceivedByte ; // Echo back the received byte back to the computer
+   }
+
+
+   ISR (TIMER1_OVF_vect) {
+   UDR0 ='a';
+   }
+ */
+
+
+void enterSleep(void)
+{
+ set_sleep_mode(SLEEP_MODE_PWR_SAVE);   /* EDIT: could also use SLEEP_MODE_PWR_DOWN for lowest power consumption. */
+ sleep_enable();
+
+ /* Now enter sleep mode. */
+ sleep_mode();
+
+ /* The program will continue from here after the WDT timeout*/
+ sleep_disable(); /* First thing to do is disable sleep. */
+
+ /* Re-enable the peripherals. */
+ power_all_enable();
+}
+
+
+int main(void) {
+ LED_DDR = 0xff;                              /* all LEDs active */
+ BUTTON_PORT |= (1 << BUTTON);                /* pullup */
+ initInterrupt0();
+ //  initTimer0();
+
+ /* Clear the reset flag. */
+ MCUSR &= ~(1<<WDRF);
+
+ /* In order to change WDE or the prescaler, we need to
+  * set WDCE (This will allow updates for 4 clock cycles).
+  */
+ WDTCSR |= (1<<WDCE) | (1<<WDE);
+
+ /* set new watchdog timeout prescaler value */
+ WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */
+
+ /* Enable the WD interrupt (note no reset). */
+ WDTCSR |= _BV(WDIE);
+
+
+
+ //  //UCSRB = (1 << RXEN ) | (1 << TXEN ) ; // Turn on the transmission and reception circuitry
+ //  //UCSRC = (1 << URSEL ) | (1 << UCSZ0 ) | (1 << UCSZ1 ) ; // Use 8 - bit character sizes
+ //  UCSR0B = _BV(RXEN0) | _BV(TXEN0);   /* Enable RX and TX */
+ //  UCSR0C = _BV(UCSZ01) | _BV(UCSZ00); /* 8-bit data */
+ //  UBRRH = ( BAUD_PRESCALE >> 8) ; // Load upper 8 - bits of the baud rate value into the high byte of the UBRR register
+ //  UBRRL = BAUD_PRESCALE ; // Load lower 8 - bits of the baud rate value into the low byte of the UBRR register
+ //  UCSRB |= (1 << RXCIE0 ) ; // Enable the USART Recieve Complete interrupt ( USART_RXC )
+ ////  sei () ; // Enable the Global Interrupt Enable flag so that interrupts can be processed
+ //  UDR0 ='a';
+
+
+ //    TIMSK1 |= (1 << TOIE1);    // enable timer interrupt
+
+ ////    TCCR1B |= (1 << CS12) | (1 << CS11) | (1 << CS10);    // Turn on the counter
+ //    TCCR1B |= (1 << CS12) | (1 << CS10);    // Turn on the counter
+
+ //  sei () ; // Enable the Global Interrupt Enable flag so that interrupts can be processed
+
+
+ //  set_sleep_mode (SLEEP_MODE_PWR_DOWN);        /* Queste 3 istruzioni abilitano il modo in basso consumo della CPU */ 
+ //  sleep_enable();
+ //  while (1) {
+ //  sleep_cpu ();  
+ //  }                                                  
+
+ while (1) {
+
+  if(f_wdt == 1)
+  {
+   /* Toggle the LED */
+   LED_PORT ^= (1 << LED0);
+   /* Don't forget to clear the flag. */
+   f_wdt = 0;
+
+   /* Re-enter sleep mode. */
+   enterSleep();
+  }
+  else
+  {
+   /* Do nothing. */
+  }
+ }
+
+ return (0);                                  /* This line is never reached */
+}
