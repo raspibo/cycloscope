@@ -19,7 +19,7 @@ rm *.hex *.elf ; make &&  avrdude -p m328p -c usbasp -U flash:w:cycloscope_photo
 
 #define WHEEL_CIRC       67  //  Circonferenza della ruota in cm
 #define SAMPLE_DIST      500 //  Distanza in metri tra due foto
-#define SAMPLE_COUNT     5 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
+#define SAMPLE_COUNT     20 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
 
 #define GOPRO_WAKE_START 0    //   waiting for next cycle
 #define GOPRO_WAKE_STOP  1    //   button down to start
