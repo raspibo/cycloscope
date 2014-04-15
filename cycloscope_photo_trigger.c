@@ -23,8 +23,8 @@ rm *.hex *.elf ; make &&  avrdude -p m328p -c usbasp -U flash:w:cycloscope_photo
 
 #define GOPRO_WAKE_START 0    //   waiting for next cycle
 #define GOPRO_WAKE_STOP  1    //   button down to start
-#define GOPRO_SHUT_START 16   //   waiting for camera to take pic
-#define GOPRO_SHUT_END   28   //   button down to stop
+#define GOPRO_SHUT_START 32   //   waiting for camera to take pic
+#define GOPRO_SHUT_END   56   //   button down to stop
 
 volatile int x=0;
 volatile uint8_t tot_overflow;
@@ -87,8 +87,11 @@ void enterSleep(void)
 
 
 int main(void) {
- LED_DDR = 0xff;                              /* all LEDs active */
- DDRC = 0xff;                                 /*portc tutto out*/
+ DDRB = 0x01;                                 /*portb out led pin 12 go pro*/
+ LED_DDR = 0x01;                              /*pin 12 high */
+ DDRC = 0x08;                                 /*portc out pin debug*/
+ PORTC &= ~(1 << 3);
+ DDRC = 0x08;                                 /*portc out pin debug*/
  //  LED_PORT ^= (1 << LED0); //toggle
  BUTTON_PORT |= (1 << BUTTON);                /* pullup */
  initInterrupt0();
