@@ -1,0 +1,47 @@
+eeschema (2012-apr-16-27)-stable  >> Creation date: Mon 21 Apr 2014 19:17:09 CEST
+
+#Cmp ( order = Reference )
+| C1         1000uF      
+| C2         100nF       
+| D1         1N4001      
+| D2         LED         
+| D3         LED         
+| IC1        ATMEGA328P-P
+| P1         CONN_1      
+| P2         CONN_1      
+| P3         CONN_1      
+| P4         CONN_1      
+| P5         CONN_2      
+| P6         CONN_6      
+| P7         CONN_5      
+| P8         CONN_2      
+| R1         120         
+| R2         120         
+| R3         120         
+| R4         10K         
+| SW1        SW_PUSH     
+#End Cmp
+
+#Cmp ( order = Value )
+| 1000uF       C1        
+| 100nF        C2        
+| 10K          R4        
+| 120          R1        
+| 120          R2        
+| 120          R3        
+| 1N4001       D1        
+| ATMEGA328P-P IC1       
+| CONN_1       P1        
+| CONN_1       P2        
+| CONN_1       P3        
+| CONN_1       P4        
+| CONN_2       P5        
+| CONN_2       P8        
+| CONN_5       P7        
+| CONN_6       P6        
+| LED          D2        
+| LED          D3        
+| SW_PUSH      SW1       
+#End Cmp
+
+#End List

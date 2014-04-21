@@ -1,0 +1,12 @@
+"Id";"Designator";"Package";"Quantity";"Designation";"Supplier and ref";
+1;"P7";"PIN_ARRAY_5x1";1;"CONN_5";;;
+2;"P8,P5";"PIN_ARRAY_2X1";2;"CONN_2";;;
+3;"P4,P3,P2,P1";"PIN_ARRAY_1";4;"CONN_1";;;
+4;"P6";"PIN_ARRAY-6X1";1;"CONN_6";;;
+5;"IC1";"DIP-28__300";1;"ATMEGA328P-P";;;
+6;"D1";"D3";1;"1N4001";;;
+7;"C1";"CPR10X16";1;"1000uF";;;
+8;"C2";"C1";1;"100nF";;;
+9;"R1,R2,R3";"R3-LARGE_PADS";3;"120";;;
+10;"R4";"R3-LARGE_PADS";1;"10K";;;
+11;"D2,D3";"R3-LARGE_PADS";2;"LED";;;
