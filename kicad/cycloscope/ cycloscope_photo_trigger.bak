@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Mon 21 Apr 2014 19:13:38 CEST
+EESchema Schematic File Version 2  date Fri 25 Apr 2014 18:37:27 CEST
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -29,6 +29,7 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
+LIBS:w_connectors
 LIBS: cycloscope_photo_trigger-cache
 EELAYER 25  0
 EELAYER END
@@ -36,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "Cycloscop photo trigger"
-Date "21 apr 2014"
+Date "25 apr 2014"
 Rev "1"
 Comp "Raspibo"
 Comment1 "Photo trigger with hall sensor used to drive go pro "
@@ -44,10 +45,15 @@ Comment2 "camera, street sampling project:"
 Comment3 "http://itcycloscope.weebly.com/"
 Comment4 ""
 $EndDescr
+Connection ~ 2750 2700
+Wire Wire Line
+	2650 2700 2750 2700
+Wire Wire Line
+	6700 3800 6700 3750
+Wire Wire Line
+	7800 4150 7800 4050
 Connection ~ 7800 4850
 Connection ~ 7800 3500
-Wire Wire Line
-	7800 4800 7800 4950
 Wire Wire Line
 	7800 3450 7800 3550
 Connection ~ 3200 2100
@@ -55,20 +61,14 @@ Wire Wire Line
 	3200 1900 3200 2100
 Wire Wire Line
 	6300 2100 6550 2100
-Connection ~ 6600 3750
-Wire Wire Line
-	6500 3750 6600 3750
 Wire Wire Line
 	4100 2400 4000 2400
 Wire Wire Line
 	4000 2400 4000 2100
 Wire Wire Line
 	4100 2100 2750 2100
-Connection ~ 6800 4100
-Connection ~ 6800 3800
 Wire Wire Line
 	2750 800  2750 900 
-Connection ~ 6600 3700
 Connection ~ 7650 1750
 Connection ~ 4100 4300
 Connection ~ 4100 4400
@@ -79,15 +79,6 @@ Connection ~ 3700 2650
 Connection ~ 6300 3550
 Wire Wire Line
 	6300 3500 6300 3550
-Connection ~ 6600 3800
-Wire Wire Line
-	6600 3700 6600 4100
-Wire Wire Line
-	6600 4100 6800 4100
-Wire Wire Line
-	6800 4200 6700 4200
-Wire Wire Line
-	6700 4200 6700 4350
 Wire Wire Line
 	6800 3900 6000 3900
 Wire Wire Line
@@ -131,10 +122,6 @@ Wire Wire Line
 	6250 1750 6000 1750
 Wire Wire Line
 	6000 2500 6550 2500
-Wire Wire Line
-	6800 4000 6000 4000
-Wire Wire Line
-	6800 3800 6600 3800
 Connection ~ 4000 2100
 Wire Wire Line
 	6300 3100 6300 3150
@@ -142,9 +129,6 @@ Wire Wire Line
 	6300 3150 6000 3150
 Wire Wire Line
 	2800 4550 2800 4700
-Wire Wire Line
-	6600 4300 6700 4300
-Connection ~ 6700 4300
 Connection ~ 2750 2000
 Wire Wire Line
 	6550 2300 6300 2300
@@ -158,76 +142,111 @@ Wire Wire Line
 Wire Wire Line
 	6000 650  6000 800 
 Wire Wire Line
-	7800 4150 7800 4300
-Wire Wire Line
 	6000 3550 7450 3550
+Connection ~ 7800 4100
 Wire Wire Line
-	7450 3550 7450 4200
+	7450 3550 7450 4100
 Wire Wire Line
-	7450 4200 7800 4200
-Connection ~ 7800 4200
+	7450 4100 7800 4100
+Wire Wire Line
+	7800 4750 7800 4950
+Wire Wire Line
+	6700 4300 6700 4100
+Wire Wire Line
+	6700 4100 6800 4100
+Wire Wire Line
+	6650 3800 6800 3800
+Connection ~ 6700 3800
 $Comp
-L SW_PUSH SW1
-U 1 1 53554C73
-P 7800 3850
-F 0 "SW1" H 7950 3960 50  0000 C CNN
-F 1 "SW_PUSH" H 7800 3770 50  0000 C CNN
-	1    7800 3850
+L PWR_FLAG #FLG01
+U 1 1 535A8F35
+P 2650 2700
+F 0 "#FLG01" H 2650 2795 30  0001 C CNN
+F 1 "PWR_FLAG" H 2650 2880 30  0000 C CNN
+	1    2650 2700
 	0    -1   -1   0   
 $EndComp
 $Comp
-L VCC #PWR01
+L PWR_FLAG #FLG02
+U 1 1 535A8F10
+P 6650 3800
+F 0 "#FLG02" H 6650 3895 30  0001 C CNN
+F 1 "PWR_FLAG" H 6650 3980 30  0000 C CNN
+	1    6650 3800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR03
+U 1 1 535A8ED5
+P 6700 3750
+F 0 "#PWR03" H 6700 3850 30  0001 C CNN
+F 1 "VCC" H 6700 3850 30  0000 C CNN
+	1    6700 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR04
+U 1 1 535A8ECA
+P 6700 4300
+F 0 "#PWR04" H 6700 4300 30  0001 C CNN
+F 1 "GND" H 6700 4230 30  0001 C CNN
+	1    6700 4300
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6000 4000
+$Comp
+L JACK_3.5MM_3PIN J1
+U 1 1 535A8E53
+P 6950 3950
+F 0 "J1" H 6950 4200 60  0000 C CNN
+F 1 "JACK_3.5MM_3PIN" H 6950 3700 60  0000 C CNN
+	1    6950 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW1
+U 1 1 53554C73
+P 7800 4450
+F 0 "SW1" H 7950 4560 50  0000 C CNN
+F 1 "SW_PUSH" H 7800 4370 50  0000 C CNN
+	1    7800 4450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #PWR05
 U 1 1 53554C10
 P 7800 3450
-F 0 "#PWR01" H 7800 3550 30  0001 C CNN
+F 0 "#PWR05" H 7800 3550 30  0001 C CNN
 F 1 "VCC" H 7800 3550 30  0000 C CNN
 	1    7800 3450
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR02
+L VCC #PWR06
 U 1 1 534EF267
 P 3200 1900
-F 0 "#PWR02" H 3200 2000 30  0001 C CNN
+F 0 "#PWR06" H 3200 2000 30  0001 C CNN
 F 1 "VCC" H 3200 2000 30  0000 C CNN
 	1    3200 1900
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR03
+L GND #PWR07
 U 1 1 534ECA96
 P 6300 2300
-F 0 "#PWR03" H 6300 2300 30  0001 C CNN
+F 0 "#PWR07" H 6300 2300 30  0001 C CNN
 F 1 "GND" H 6300 2230 30  0001 C CNN
 	1    6300 2300
 	0    1    1    0   
 $EndComp
 $Comp
-L VCC #PWR04
+L VCC #PWR08
 U 1 1 534ECA7D
 P 6300 2100
-F 0 "#PWR04" H 6300 2200 30  0001 C CNN
+F 0 "#PWR08" H 6300 2200 30  0001 C CNN
 F 1 "VCC" H 6300 2200 30  0000 C CNN
 	1    6300 2100
 	1    0    0    -1  
-$EndComp
-$Comp
-L PWR_FLAG #FLG05
-U 1 1 534EC493
-P 6500 3750
-F 0 "#FLG05" H 6500 3845 30  0001 C CNN
-F 1 "PWR_FLAG" H 6500 3930 30  0000 C CNN
-	1    6500 3750
-	0    -1   -1   0   
-$EndComp
-$Comp
-L PWR_FLAG #FLG06
-U 1 1 534EC471
-P 6600 4300
-F 0 "#FLG06" H 6600 4395 30  0001 C CNN
-F 1 "PWR_FLAG" H 6600 4480 30  0000 C CNN
-	1    6600 4300
-	0    -1   -1   0   
 $EndComp
 $Comp
 L CONN_1 P2
@@ -239,10 +258,10 @@ F 1 "CONN_1" H 2800 4455 30  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L GND #PWR07
+L GND #PWR09
 U 1 1 534EB5D5
 P 2800 4700
-F 0 "#PWR07" H 2800 4700 30  0001 C CNN
+F 0 "#PWR09" H 2800 4700 30  0001 C CNN
 F 1 "GND" H 2800 4630 30  0001 C CNN
 	1    2800 4700
 	1    0    0    -1  
@@ -283,34 +302,6 @@ NoConn ~ 6000 2800
 NoConn ~ 6000 2700
 NoConn ~ 6000 2300
 NoConn ~ 6000 2200
-$Comp
-L VCC #PWR08
-U 1 1 534EAF83
-P 6600 3700
-F 0 "#PWR08" H 6600 3800 30  0001 C CNN
-F 1 "VCC" H 6600 3800 30  0000 C CNN
-	1    6600 3700
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR09
-U 1 1 534EAF79
-P 6700 4350
-F 0 "#PWR09" H 6700 4350 30  0001 C CNN
-F 1 "GND" H 6700 4280 30  0001 C CNN
-	1    6700 4350
-	1    0    0    -1  
-$EndComp
-$Comp
-L CONN_5 P7
-U 1 1 534EAF54
-P 7200 4000
-F 0 "P7" V 7150 4000 50  0000 C CNN
-F 1 "CONN_5" V 7250 4000 50  0000 C CNN
-F 4 "Ext sensor conn" V 7200 4000 60  0001 C CNN "Descr"
-	1    7200 4000
-	1    0    0    -1  
-$EndComp
 $Comp
 L CONN_6 P6
 U 1 1 534EAA46
@@ -395,10 +386,10 @@ $EndComp
 $Comp
 L R R4
 U 1 1 534EA881
-P 7800 4550
-F 0 "R4" V 7880 4550 50  0000 C CNN
-F 1 "10K" V 7800 4550 50  0000 C CNN
-	1    7800 4550
+P 7800 3800
+F 0 "R4" V 7880 3800 50  0000 C CNN
+F 1 "10K" V 7800 3800 50  0000 C CNN
+	1    7800 3800
 	-1   0    0    1   
 $EndComp
 $Comp

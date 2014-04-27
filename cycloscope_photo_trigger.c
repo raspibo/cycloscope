@@ -19,7 +19,7 @@
 
 #define WHEEL_CIRC       67  //  Circonferenza della ruota in cm
 #define SAMPLE_DIST      500 //  Distanza in metri tra due foto
-#define SAMPLE_COUNT     50 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
+#define SAMPLE_COUNT     237 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
 
 #define GOPRO_WAKE_START 0    //   waiting for next cycle
 #define GOPRO_WAKE_STOP  1    //   button down to start
@@ -44,18 +44,10 @@ void initInterrupt0(void) {                    //Imposta i registri per abilitar
 
 ISR(INT0_vect) {                                //Imposta la routine da eseguire quando si riceve una variazione solo pin INT0
   if (bit_is_set(BUTTON_PIN, BUTTON)) {
-   //LED_PORT |= (1 << LED1);
    PORTC |= (1 << 3);                            //Accensione del led verde port c pin 3 quando si verifica l'interrupt ed il pin è alto
    giri=giri+1;                                  //incrementa il contatore di giri della ruota
   } else {
-   //  LED_PORT &= ~(1 << LED1);
    PORTC &= ~(1 << 3);                           //Spegne il  led verde port c pin 3 quando si verifica l'interrupt ed il pin è basso
-  }
-  if (giri>=SAMPLE_COUNT && scatto_attivo==0) {                      //Raggiunta la quantità di giri per lo scatto. Impostare a 238 per i test su strada//
-   LED_PORT &= ~(1 << LED0);                      //Accensione della telecamera e del led giallo (B0) il pin va a massa
-   time=GOPRO_WAKE_START;                        //Azzera il conteggio di interrupt di watchdog per il calcolo del tempo
-   wdt_reset();                                  //Azzera il watchdog per un calcolo preciso del tempo
-   scatto_attivo=1;				//parte la sequenza di scatto
   }
 }
 
@@ -63,20 +55,6 @@ ISR(WDT_vect)
 {
  sleep_disable();                              //Disable Sleep on Wakeup
  time++;                                       //Incrementa il contatore di tempo dopo il risveglio del watchdog
- if (time==GOPRO_WAKE_STOP && scatto_attivo==1) {  //Se GOPRO_WAKE_STOP(=1) sono passati 250 msecondi la gopro è accesa
-  LED_PORT |= (1 << LED0);                     //Spengo il led a vcc il pin B0 (spegne il led giallo), la go pro è accesa
- }
- if (time==GOPRO_SHUT_START && scatto_attivo==1) {//GOPRO_SHUT_START(32) raggiunti 32 conteggi di watchdog la foto è scattata
-  LED_PORT &= ~(1 << LED0);                    //Spengo la go pro portando a massa il pin B0(il led giallo si accende)
- }
-
- if (time>=GOPRO_SHUT_END && scatto_attivo==1) {  //dopo 3 secondi finisce la sequenza di shutdown della go pro
-  LED_PORT |= (1 << LED0);                     //Spengo il led a vcc il pin B0 (spegne il led giallo), la go pro è spenta
-  time=GOPRO_WAKE_START;                       //Azzera il conteggio di interrupt di watchdog per il calcolo del tempo
-  giri=0;                                      //Azzera il contatore di giri
-  scatto_attivo=0;
- }
- sleep_enable();                               // Enable Sleep Mode
 }
 
 void enterSleep(void)
@@ -108,15 +86,44 @@ int main(void) {
 
  LED_PORT |= (1 << LED0);                     //Spegne il led giallo nel caso fosse rimasto acceso
 
- giri=10;                                      //Azzera il contatore di giri 
+// giri=SAMPLE_COUNT - 10;                                      //Azzera il contatore di giri 
+ giri=0;                                      //Azzera il contatore di giri 
 
- for (x=0;x<=5;x++) {
+ for (x=0;x<=3;x++) {
   PORTC &= ~(1 << 3);                           //Spegne il  led verde port c pin 3 quando si verifica l'interrupt ed il pin è basso
   _delay_ms(500);
   PORTC |= (1 << 3);
   _delay_ms(500);
  }
  while (1) {
+
+  if (giri>=SAMPLE_COUNT && scatto_attivo==0) {                      //Raggiunta la quantità di giri per lo scatto. Impostare a 238 per i test su strada//
+   LED_PORT &= ~(1 << LED0);                      //Accensione della telecamera e del led giallo (B0) il pin va a massa
+   time=GOPRO_WAKE_START;                        //Azzera il conteggio di interrupt di watchdog per il calcolo del tempo
+   wdt_reset();                                  //Azzera il watchdog per un calcolo preciso del tempo
+   scatto_attivo=1;				//parte la sequenza di scatto
+  giri=0;                                      //Azzera il contatore di giri
+  }
+
+
+
+
+
+
+ if (time==GOPRO_WAKE_STOP && scatto_attivo==1) {  //Se GOPRO_WAKE_STOP(=1) sono passati 250 msecondi la gopro è accesa
+  LED_PORT |= (1 << LED0);                     //Spengo il led a vcc il pin B0 (spegne il led giallo), la go pro è accesa
+ }
+ if (time==GOPRO_SHUT_START && scatto_attivo==1) {//GOPRO_SHUT_START(32) raggiunti 32 conteggi di watchdog la foto è scattata
+  LED_PORT &= ~(1 << LED0);                    //Spengo la go pro portando a massa il pin B0(il led giallo si accende)
+ }
+
+ if (time>=GOPRO_SHUT_END && scatto_attivo==1) {  //dopo 3 secondi finisce la sequenza di shutdown della go pro
+  LED_PORT |= (1 << LED0);                     //Spengo il led a vcc il pin B0 (spegne il led giallo), la go pro è spenta
+  time=GOPRO_WAKE_START;                       //Azzera il conteggio di interrupt di watchdog per il calcolo del tempo
+  scatto_attivo=0;
+ }
+ sleep_enable();                               // Enable Sleep Mode
+
   enterSleep();
  }
  return (0);                                  /* This line is never reached */

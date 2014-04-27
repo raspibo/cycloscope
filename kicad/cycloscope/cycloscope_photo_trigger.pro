@@ -1,6 +1,6 @@
-update=Sat 26 Apr 2014 14:34:18 CEST
+update=Fri 25 Apr 2014 18:24:02 CEST
 version=1
-last_client=eeschema
+last_client=cvpcb
 [general]
 version=1
 [pcbnew]
@@ -32,13 +32,7 @@ LibName8=led
 LibName9=dip_sockets
 LibName10=pga_sockets
 LibName11=valves
-LibName12=w_conn_av
 LibDir=
-[cvpcb]
-version=1
-NetIExt=net
-[cvpcb/libraries]
-EquName1=devcms
 [eeschema]
 version=1
 LibDir=
@@ -101,4 +95,9 @@ LibName27=opto
 LibName28=atmel
 LibName29=contrib
 LibName30=valves
-LibName31=w_connectors
+LibName31=3-pin_audio_jack
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms

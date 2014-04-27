@@ -1,8 +1,8 @@
-# EESchema Netlist Version 1.1 created  Mon 21 Apr 2014 19:17:00 CEST
+# EESchema Netlist Version 1.1 created  Fri 25 Apr 2014 18:04:40 CEST
 (
  ( /53554C73 $noname  SW1 SW_PUSH {Lib=SW_PUSH}
   (    1 GND )
-  (    2 N-000031 )
+  (    2 N-000005 )
  )
  ( /534EB5DD $noname  P2 CONN_1 {Lib=CONN_1}
   (    1 GND )
@@ -10,13 +10,10 @@
  ( /534EB5AE $noname  P1 CONN_1 {Lib=CONN_1}
   (    1 N-000033 )
  )
- ( /534EB59E $noname  P3 CONN_1 {Lib=CONN_1}
-  (    1 N-000032 )
- )
  ( /534EAF54 $noname  P7 CONN_5 {Lib=CONN_5}
   (    1 VCC )
-  (    2 N-000028 )
-  (    3 N-000029 )
+  (    2 N-000006 )
+  (    3 N-000008 )
   (    4 VCC )
   (    5 GND )
  )
@@ -24,9 +21,9 @@
   (    1 VCC )
   (    2 ? )
   (    3 GND )
-  (    4 N-000021 )
-  (    5 N-000022 )
-  (    6 N-000023 )
+  (    4 N-000027 )
+  (    5 N-000029 )
+  (    6 N-000031 )
  )
  ( /534EAA0E $noname  C1 1000uF {Lib=CP1}
   (    1 VCC )
@@ -37,50 +34,50 @@
   (    2 GND )
  )
  ( /534EA98D $noname  P5 CONN_2 {Lib=CONN_2}
-  (    1 N-000003 )
-  (    2 N-000018 )
+  (    1 N-000011 )
+  (    2 N-000009 )
  )
  ( /534EA955 $noname  D2 LED {Lib=LED}
-  (    1 N-000004 )
-  (    2 N-000003 )
+  (    1 N-000010 )
+  (    2 N-000011 )
  )
  ( /534EA947 $noname  R2 120 {Lib=R}
   (    1 N-000033 )
-  (    2 N-000004 )
+  (    2 N-000010 )
  )
  ( /534EA8C4 $noname  P4 CONN_1 {Lib=CONN_1}
-  (    1 N-000031 )
+  (    1 N-000005 )
  )
  ( /534EA881 $noname  R4 10K {Lib=R}
-  (    1 N-000031 )
+  (    1 N-000005 )
   (    2 VCC )
  )
  ( /534EA849 $noname  R3 120 {Lib=R}
   (    1 VCC )
-  (    2 N-000024 )
+  (    2 N-000002 )
  )
  ( /534EA83C $noname  D3 LED {Lib=LED}
-  (    1 N-000024 )
-  (    2 N-000025 )
+  (    1 N-000002 )
+  (    2 N-000003 )
  )
  ( /534EA830 $noname  P8 CONN_2 {Lib=CONN_2}
-  (    1 N-000025 )
+  (    1 N-000003 )
   (    2 N-000026 )
  )
  ( /534EA743 $noname  D1 1N4001 {Lib=DIODE}
-  (    1 N-000027 )
+  (    1 N-000004 )
   (    2 VCC )
  )
  ( /534EA72F $noname  R1 120 {Lib=R}
   (    1 N-000033 )
-  (    2 N-000027 )
+  (    2 N-000004 )
  )
  ( /534EA6A3 DIL28  IC1 ATMEGA328P-P {Lib=ATMEGA328P-P}
-  (    1 N-000031 )
-  (    2 ? )
-  (    3 ? )
-  (    4 N-000028 )
-  (    5 N-000029 )
+  (    1 N-000005 )
+  (    2 N-000012 )
+  (    3 N-000013 )
+  (    4 N-000006 )
+  (    5 N-000008 )
   (    6 ? )
   (    7 VCC )
   (    8 GND )
@@ -89,21 +86,34 @@
   (   11 ? )
   (   12 ? )
   (   13 ? )
-  (   14 N-000018 )
+  (   14 N-000009 )
   (   15 ? )
   (   16 ? )
-  (   17 N-000021 )
-  (   18 N-000022 )
-  (   19 N-000023 )
+  (   17 N-000027 )
+  (   18 N-000029 )
+  (   19 N-000031 )
   (   20 VCC )
   (   21 ? )
   (   22 GND )
   (   23 ? )
   (   24 ? )
-  (   25 N-000032 )
+  (   25 N-000024 )
   (   26 N-000026 )
   (   27 ? )
   (   28 ? )
+ )
+ ( /5358F11D $noname  K1 CONN_3 {Lib=CONN_3}
+  (    1 N-000024 )
+  (    2 N-000033 )
+  (    3 GND )
+ )
+ ( /534EB59E $noname  P3 CONN_1 {Lib=CONN_1}
+  (    1 N-000024 )
+ )
+ ( /5358F85D $noname  K2 CONN_3 {Lib=CONN_3}
+  (    1 GND )
+  (    2 N-000012 )
+  (    3 N-000013 )
  )
 )
 *
@@ -174,73 +184,83 @@ $endlist
 $endfootprintlist
 }
 { Pin List by Nets
-Net 2 "GND" "GND"
- IC1 8
- IC1 22
- SW1 1
- P2 1
- C2 2
- C1 2
- P6 3
- P7 5
-Net 3 "" ""
- D2 2
- P5 1
-Net 4 "" ""
- R2 2
- D2 1
-Net 18 "" ""
- IC1 14
- P5 2
-Net 21 "" ""
- IC1 17
- P6 4
-Net 22 "" ""
- P6 5
- IC1 18
-Net 23 "" ""
- P6 6
- IC1 19
-Net 24 "" ""
- R3 2
- D3 1
-Net 25 "" ""
- D3 2
- P8 1
-Net 26 "" ""
- P8 2
- IC1 26
-Net 27 "" ""
- D1 1
- R1 2
-Net 28 "" ""
- IC1 4
- P7 2
-Net 29 "" ""
- IC1 5
- P7 3
-Net 30 "VCC" "VCC"
- C2 1
- R4 2
- D1 2
- R3 1
- IC1 20
- IC1 7
+Net 1 "VCC" "VCC"
+ C1 1
  P7 1
  P7 4
- C1 1
  P6 1
-Net 31 "" ""
- P4 1
- R4 1
+ IC1 20
+ IC1 7
+ C2 1
+ R4 2
+ R3 1
+ D1 2
+Net 2 "" ""
+ R3 2
+ D3 1
+Net 3 "" ""
+ D3 2
+ P8 1
+Net 4 "" ""
+ D1 1
+ R1 2
+Net 5 "" ""
  SW1 2
+ R4 1
  IC1 1
-Net 32 "" ""
+ P4 1
+Net 6 "" ""
+ IC1 4
+ P7 2
+Net 8 "" ""
+ IC1 5
+ P7 3
+Net 9 "" ""
+ IC1 14
+ P5 2
+Net 10 "" ""
+ D2 1
+ R2 2
+Net 11 "" ""
+ D2 2
+ P5 1
+Net 12 "" ""
+ IC1 2
+ K2 2
+Net 13 "" ""
+ IC1 3
+ K2 3
+Net 24 "" ""
+ K1 1
  P3 1
  IC1 25
+Net 26 "" ""
+ IC1 26
+ P8 2
+Net 27 "" ""
+ IC1 17
+ P6 4
+Net 29 "" ""
+ P6 5
+ IC1 18
+Net 31 "" ""
+ IC1 19
+ P6 6
+Net 32 "GND" "GND"
+ C2 2
+ K2 1
+ C1 2
+ K1 3
+ P6 3
+ P7 5
+ SW1 1
+ IC1 22
+ IC1 8
+ P2 1
 Net 33 "" ""
- R1 1
+ K1 2
  R2 1
  P1 1
+ R1 1
 }
 #End
