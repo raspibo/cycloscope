@@ -19,7 +19,7 @@
 
 #define WHEEL_CIRC       67  //  Circonferenza della ruota in cm
 #define SAMPLE_DIST      500 //  Distanza in metri tra due foto
-#define SAMPLE_COUNT     237 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
+#define SAMPLE_COUNT     80 //  Calcolato come SAMPLE_DIST/WHEEL_CIRC
 
 #define GOPRO_WAKE_START 0    //   waiting for next cycle
 #define GOPRO_WAKE_STOP  1    //   button down to start
@@ -87,6 +87,7 @@ int main(void) {
  LED_PORT |= (1 << LED0);                     //Spegne il led giallo nel caso fosse rimasto acceso
 
 // giri=SAMPLE_COUNT - 10;                                      //Azzera il contatore di giri 
+//giri=228;
  giri=0;                                      //Azzera il contatore di giri 
 
  for (x=0;x<=3;x++) {
