@@ -72,7 +72,7 @@
 <script>
 var map = L.mapbox.map('map', 'examples.map-i86nkdio');
 //var map = L.map('map', {
-//      center: [51.505, -0.09],
+//	center: [51.505, -0.09],
 //zoom: 13
 //});
 //var map = L.mapbox.map('map', 'dancast78.i8iac47o').addControl(L.mapbox.geocoderControl('dancast78.i8iac47o'));
@@ -101,7 +101,7 @@ omnivore.csv('markers.csv')
                 marker.setIcon(L.mapbox.marker.icon({
                     'marker-color': '#55ff55',
                     'marker-size': 'small',
-                    'marker-symbol': 'bicycle'
+		    'marker-symbol': 'bicycle'
                 }));
             } else {
                 marker.setIcon(L.mapbox.marker.icon({'marker-color': '#55ff55','marker-size': 'small', 'marker-symbol': 'bicycle'}));
@@ -110,7 +110,7 @@ omnivore.csv('markers.csv')
 /*            marker.bindPopup(marker.toGeoJSON().properties.city + ', ' +
                 marker.toGeoJSON().properties.state);
 */
-            marker.bindPopup(marker.toGeoJSON().properties.city);
+            marker.bindPopup(marker.toGeoJSON().properties.city); 
         });
         map.fitBounds(this.getBounds());
     })
@@ -139,3 +139,5 @@ map.on('zoomend', function() {
 </script>
 </body>
 </html>
+
+

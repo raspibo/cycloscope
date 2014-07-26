@@ -1,8 +1,4 @@
 <?
-// Report all errors except E_NOTICE
-error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING  & ~E_NOTICE);
-
-
 
 function getDirectoryTree( $outerDir , $x){
     $dirs = array_diff( scandir( $outerDir ), Array( ".", "..", "traccia.gpx","large","thumb" ) );
@@ -29,12 +25,10 @@ $img_per_pagina=3;
 
 $fp = fopen('/var/www/cycloscope/markers.csv', 'w');
 fwrite($fp,"photo,title,city,state,country,latitude,longitude\n");
-//$files=getDirectoryTree('geotagged','.JPG'); 
 $files=getDirectoryTree('geotagged','.JPG'); 
 foreach ($files as  $x) {
 $contatore++;
-if (($contatore%10==0 && $contatore < 3430 ) ||  ($contatore%5==0 && $contatore >=3430 && $contatore<3700) || ( $contatore%2==0 && $contatore>=3700 &&  $contatore<3736) || ($contatore%10==0 && $contatore >= 3736) ) {
-//if ($contatore%10 ==0) {
+if (($contatore%10==0 && $contatore < 3430 ) ||  ($contatore%5==0 && $contatore >=3430 && $contatore<3700) || ( $contatore%2==0 && $contatore>=3700 &&  $contatore<3736) || ($contatore%10==0 && $contatore >= 3736) || $contatore%10> 3736 ) {
  $cont_pagg++;
  $photo=sprintf ("geotagged/%s",$x);
  echo $photo;
@@ -53,11 +47,11 @@ if (($contatore%10==0 && $contatore < 3430 ) ||  ($contatore%5==0 && $contatore 
  $lon_minutes = explode("/",$Longitude[1]);
  $lon_seconds = explode("/",$Longitude[2]);
  $lon_coord = round(($lon_degrees[0]) + (($lon_minutes[0] * 60)+($lon_seconds[0]/$lon_seconds[1]))/3600,4);
- if ($lon_coord!=0) {
-  fwrite($fp, $photo . ",2,<a href=gallery/index.php?page=" . ceil($cont_pagg/$img_per_pagina) . " target=_blank><img src=geotagged/thumb/" . basename($photo) ." width=200></a><br>" . str_replace(",","<br>",str_replace("Cycloscope project - http://itcycloscope.weebly.com/ - " ,"",$exif['IFD0']['ImageDescription'])) . ",cycloscope,5," . $lat_coord . "," . $lon_coord . "\n");
- echo " $lon_coord - $lat_coord - $data - $data_sync - $photo\n";
- // echo "$contatore - <a href=gallery/index.php?page=" . ceil($cont_pagg/$img_per_pagina) . " target=_blank> ";
- }
+if ($lon_coord!=0) {
+ fwrite($fp, $photo . ",2,<a href=gallery/index.php?page=" . ceil($cont_pagg/$img_per_pagina) . " target=_blank><img src=geotagged/thumb/" . basename($photo) ." width=200></a><br>" . str_replace(",","<br>",str_replace("Cycloscope project - http://itcycloscope.weebly.com/ - " ,"",$exif['IFD0']['ImageDescription'])) . ",cycloscope,5," . $lat_coord . "," . $lon_coord . "\n");
+ echo "$photo\n";
+ echo "$contatore - <a href=gallery/index.php?page=" . ceil($cont_pagg/$img_per_pagina) . " target=_blank> ";
+}
 }
 }
 fclose($fp);
