@@ -1,6 +1,6 @@
 Cycloscope software repository
 
-This a repository of software used on cycloscope project: http://itcycloscope.weebly.com/
+This a repository of software used on cycloscope project: http://cycloscope.net/
 
 * A bicycle journey through central Asia
 * Ten reportage
